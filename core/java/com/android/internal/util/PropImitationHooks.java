@@ -65,12 +65,10 @@ public class PropImitationHooks {
     private static final String PROCESS_GMS_UNSTABLE = PACKAGE_GMS + ".unstable";
 
     private static final String PACKAGE_AIAI = "com.google.android.apps.miphone.aiai.AiaiApplication";
-    private static final String PACKAGE_GASSIST = "com.google.android.apps.googleassistant";
     private static final String PACKAGE_GCAM = "com.google.android.GoogleCamera";
     private static final String PACKAGE_GPHOTOS = "com.google.android.apps.photos";
     private static final String PACKAGE_SUBSCRIPTION_RED = "com.google.android.apps.subscriptions.red";
     private static final String PACKAGE_TURBO = "com.google.android.apps.turbo";
-    private static final String PACKAGE_VELVET = "com.google.android.googlequicksearchbox";
     private static final String PACKAGE_GBOARD = "com.google.android.inputmethod.latin";
     private static final String PACKAGE_SETIINGS_INTELLIGENCE = "com.google.android.settings.intelligence";
     private static final String PACKAGE_SETUPWIZARD = "com.google.android.setupwizard";
@@ -236,12 +234,7 @@ public class PropImitationHooks {
                     dlog("Spoofing as Pixel 7 Pro for: " + packageName);
                     sP7Props.forEach((k, v) -> setPropValue(k, v));
                     break;
-                case PACKAGE_GASSIST:
                 case PACKAGE_GBOARD:
-                case PACKAGE_VELVET:
-                    dlog("Spoofing as Pixel Fold for: " + packageName);
-                    sPFoldProps.forEach((k, v) -> setPropValue(k, v));
-                    break;
                 case PACKAGE_AIAI:
                 case PACKAGE_SETIINGS_INTELLIGENCE:
                 case PACKAGE_CINEMATIC_PHOTOS:
