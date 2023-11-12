@@ -154,11 +154,6 @@ class BackPanelController internal constructor(
     private val elapsedTimeSinceEntry
         get() = SystemClock.uptimeMillis() - gestureEntryTime
 
-    private var mIsLongSwipe = false
-    private var mLongSwipeEnabled = false
-    private var mLongSwipeThreshold = 0f
-    private var mTriggerLongSwipe = false
-
     // Whether the current gesture has moved a sufficiently large amount,
     // so that we can unambiguously start showing the ENTRY animation
     private var hasPassedDragSlop = false
@@ -421,8 +416,6 @@ class BackPanelController internal constructor(
         // occurs between the screen edge and the touch start.
         val xTranslation = max(0f, if (mView.isLeftPanel) x - startX else startX - x)
 
-        mIsLongSwipe = MathUtils.abs(xTranslation) > mLongSwipeThreshold
-
         // Compared to last time, how far we moved in the x direction. If <0, we are moving closer
         // to the edge. If >0, we are moving further from the edge
         val xDelta = xTranslation - previousXTranslation
@@ -460,10 +453,6 @@ class BackPanelController internal constructor(
                 GestureState.INACTIVE -> stretchInactiveBackIndicator(gestureProgress)
                 else -> {}
             }
-        }
-
-        if (mLongSwipeEnabled) {
-            setTriggerLongSwipe(mIsLongSwipe)
         }
 
         setArrowStrokeAlpha(gestureProgress)
@@ -603,33 +592,6 @@ class BackPanelController internal constructor(
 
     override fun setBackCallback(callback: NavigationEdgeBackPlugin.BackCallback) {
         backCallback = callback
-    }
-
-    override fun setLongSwipeEnabled(enabled: Boolean) {
-        mLongSwipeEnabled = enabled
-        mLongSwipeThreshold = if (enabled) {
-            Math.min(displaySize.x * 0.5f, layoutParams.width * 2.5f)
-        } else {
-            0f
-        }
-        setTriggerLongSwipe(mLongSwipeEnabled && mLongSwipeThreshold != 0f)
-    }
-
-    private fun setTriggerLongSwipe(triggerLongSwipe: Boolean) {
-        if (mTriggerLongSwipe == triggerLongSwipe) return
-        mTriggerLongSwipe = triggerLongSwipe
-        triggerVibration(mTriggerLongSwipe)
-        cancelFailsafe()
-        mView.cancelAnimations()
-        updateConfiguration()
-        backCallback.setTriggerLongSwipe(mTriggerLongSwipe)
-    }
-
-    private fun triggerVibration(longswipe: Boolean) {
-        vibratorHelper?.takeIf { longswipe }?.let {
-            val effect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK)
-            AsyncTask.execute { it.vibrate(effect) }
-        }
     }
 
     override fun setLayoutParams(layoutParams: WindowManager.LayoutParams) {
@@ -852,13 +814,9 @@ class BackPanelController internal constructor(
             GestureState.ENTRY,
             GestureState.INACTIVE -> {
                 backCallback.setTriggerBack(false)
-                setTriggerLongSwipe(false)
             }
             GestureState.ACTIVE -> {
-                backCallback.setTriggerBack(!mIsLongSwipe)
-                if (mTriggerLongSwipe && mIsLongSwipe) {
-                    backCallback.triggerBack(true)
-                }
+                backCallback.setTriggerBack(true)
             }
             GestureState.GONE -> { }
         }
