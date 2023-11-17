@@ -6464,6 +6464,27 @@ public final class Settings {
         public static final String FORCE_MOUSE_AS_TOUCH = "force_mouse_as_touch";
 
         /**
+         * Edge scrolling haptics intensity
+         * @hide
+         */
+        @Readable
+        public static final String EDGE_SCROLLING_HAPTICS_INTENSITY = "edge_scrolling_haptics_intensity";
+
+        /**
+         * Brightness sliding haptics intensity
+         * @hide
+         */
+        @Readable
+        public static final String BRIGHTNESS_SLIDER_HAPTICS_INTENSITY = "brightness_slider_haptics_intensity";
+
+        /**
+         * Volume sliding haptics intensity
+         * @hide
+         */
+        @Readable
+        public static final String VOLUME_SLIDER_HAPTICS_INTENSITY = "volume_slider_haptics_intensity";
+        
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -12069,12 +12090,6 @@ public final class Settings {
         public static final String BACK_GESTURE_ARROW = "back_gesture_arrow";
 
         /**
-         * Whether or not to vibrate when back gesture is used
-         * @hide
-         */
-        public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
-
-        /**
          * Control whether the process CPU info meter should be shown.
          * @hide
          */
@@ -12213,6 +12228,12 @@ public final class Settings {
          * @hide
          */
         public static final String ENABLE_COMBINED_SIGNAL_ICONS = "enable_combined_signal_icons";
+
+        /**
+         * Back gesture haptics intensity
+         * @hide
+         */
+        public static final String BACK_GESTURE_HAPTIC_INTENSITY = "back_gesture_haptic_intensity";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
